@@ -12,6 +12,7 @@
         public GameObject DetectedPlanePrefab;
         public GameObject Pins;
         public BallController ballController;
+        public GameObject planeObject;
 
         private const float k_ModelRotation = 180.0f;
         private bool m_IsQuitting = false;
@@ -47,9 +48,13 @@
                 {
                     //temp changes for ball
                     ballController.transform.SetPositionAndRotation(hit.Pose.position, hit.Pose.rotation);
-                    Pins.transform.SetPositionAndRotation(hit.Pose.position, hit.Pose.rotation);
+                    //Pins.transform.SetPositionAndRotation(hit.Pose.position, hit.Pose.rotation);
                     var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+                    var planeAnchor = hit.Trackable.CreateAnchor(hit.Pose);
                     ballController.transform.parent = anchor.transform;
+
+                    planeObject.transform.SetPositionAndRotation(hit.Pose.position, hit.Pose.rotation);
+                    planeObject.transform.parent = planeAnchor.transform;
                 }
             }
         }
