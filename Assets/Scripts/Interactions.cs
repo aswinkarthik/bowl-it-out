@@ -9,8 +9,8 @@
     public class Interactions : MonoBehaviour
     {
         public Camera FirstPersonCamera;
-        public GameObject DetectedPlanePrefab;
-        public GameObject Pins;
+        //public GameObject DetectedPlanePrefab;
+        public GameObject Board;
 
         private const float k_ModelRotation = 180.0f;
         private bool m_IsQuitting = false;
@@ -44,9 +44,10 @@
                 }
                 else
                 {
-                    Pins.transform.SetPositionAndRotation(hit.Pose.position, hit.Pose.rotation);
+                    Board.SetActive(true);
+                    Board.transform.SetPositionAndRotation(hit.Pose.position, hit.Pose.rotation);
                     var anchor = hit.Trackable.CreateAnchor(hit.Pose);
-                    Pins.transform.parent = anchor.transform;
+                    Board.transform.parent = anchor.transform;
                 }
             }
         }
