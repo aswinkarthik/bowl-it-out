@@ -15,13 +15,14 @@
 
         private const float k_ModelRotation = 180.0f;
         private bool m_IsQuitting = false;
+        private bool gamePlaced = false;
 
         public void Update()
         {
             _UpdateApplicationLifecycle();
 
             Touch touch;
-            if (Input.touchCount < 1 || (touch = Input.GetTouch(0)).phase != TouchPhase.Began)
+            if (Input.touchCount < 1 || (touch = Input.GetTouch(0)).phase != TouchPhase.Began || gamePlaced)
             {
                 return;
             }
@@ -47,11 +48,25 @@
                 {
                     palneController.transform.SetPositionAndRotation(hit.Pose.position, hit.Pose.rotation);
                     var planeAnchor = hit.Trackable.CreateAnchor(hit.Pose);
-
+                    gamePlaced = true;
                     palneController.transform.parent = planeAnchor.transform;
                     Rigidbody rb = palneController.GetComponent<Rigidbody>();
                     rb.transform.LookAt(palneController.transform.position);
+
+                    StopPlaneDetection(false);
+
                 }
+            }
+        }
+
+        private void StopPlaneDetection(bool flag)
+        {
+            foreach (GameObject plane in GameObject.FindGameObjectsWithTag("PlaneVisualizer"))
+            {
+                Renderer r = plane.GetComponent<Renderer>();
+                DetectedPlaneVisualizer t = plane.GetComponent<DetectedPlaneVisualizer>();
+                r.enabled = flag;
+                t.enabled = flag;
             }
         }
 
