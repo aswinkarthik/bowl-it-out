@@ -8,13 +8,14 @@ public class BallController : MonoBehaviour
     public GameObject ballObject;
     public Rigidbody rb;
     public float thrust;
-    public float rotationSpeed = 100;
+    //float speed = 1F;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true;
+        rb.isKinematic = false;
+        //rb.detectCollisions = true;
     }
 
     // Update is called once per frame
@@ -31,6 +32,7 @@ public class BallController : MonoBehaviour
 
     //public void FixedUpdate()
     //{
-    //    rb.AddForce(Physics.gravity, ForceMode.Acceleration);
+    //    Vector3 acc = Input.acceleration;
+    //    rb.AddForce(acc.x * speed, 0, acc.y * speed);
     //}
 }

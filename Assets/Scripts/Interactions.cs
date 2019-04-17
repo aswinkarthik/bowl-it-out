@@ -10,9 +10,8 @@
     {
         public Camera FirstPersonCamera;
         public GameObject DetectedPlanePrefab;
-        public GameObject Pins;
         public BallController ballController;
-        public GameObject planeObject;
+        public PlaneController palneController;
 
         private const float k_ModelRotation = 180.0f;
         private bool m_IsQuitting = false;
@@ -46,15 +45,12 @@
                 }
                 else
                 {
-                    //temp changes for ball
-                    ballController.transform.SetPositionAndRotation(hit.Pose.position, hit.Pose.rotation);
-                    //Pins.transform.SetPositionAndRotation(hit.Pose.position, hit.Pose.rotation);
-                    var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+                    palneController.transform.SetPositionAndRotation(hit.Pose.position, hit.Pose.rotation);
                     var planeAnchor = hit.Trackable.CreateAnchor(hit.Pose);
-                    ballController.transform.parent = anchor.transform;
 
-                    planeObject.transform.SetPositionAndRotation(hit.Pose.position, hit.Pose.rotation);
-                    planeObject.transform.parent = planeAnchor.transform;
+                    palneController.transform.parent = planeAnchor.transform;
+                    Rigidbody rb = palneController.GetComponent<Rigidbody>();
+                    rb.transform.LookAt(palneController.transform.position);
                 }
             }
         }
