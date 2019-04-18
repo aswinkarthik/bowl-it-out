@@ -9,13 +9,13 @@ public class BallController : MonoBehaviour
     public Camera FirstPersonCamera;
     public Rigidbody rb;
     public float thrust;
-    public float ballDistance = 2f;
-    public float ballThrowingforce = 5f;
+    public float ballDistance = 20f;
+    public float ballThrowingforce = 400f;
 
     private bool holdingBall = true;
     private bool activateBall = false;
 
-    float speed = 1F;
+    float speed = 2F;
 
     // Start is called before the first frame update
     void Start()
@@ -31,19 +31,21 @@ public class BallController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (holdingBall && activateBall && Input.touchCount > 1)
+        if (holdingBall && activateBall && Input.touchCount > 0)
         {
-            ballObject.transform.position = FirstPersonCamera.transform.position + FirstPersonCamera.transform.forward * ballDistance;
-
             Touch touch = Input.GetTouch(0);
 
             Debug.Log("Hello: " + touch.phase +"----"+ Input.touchCount);
-
-            if (touch.phase == TouchPhase.Moved)
+            //touch.phase == TouchPhase.Moved
+            if (Input.GetMouseButtonDown(0))
             {
                 holdingBall = false;
                 rb.useGravity = true;
+                ballObject.GetComponent<Rigidbody>().useGravity = true;
+                ballObject.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * 50);
+                //ballObject.transform.position = FirstPersonCamera.transform.position + FirstPersonCamera.transform.forward * ballDistance;
                 //need to Add force
+                //ApplyForce();
             }
         }
 
@@ -62,7 +64,8 @@ public class BallController : MonoBehaviour
     public void FixedUpdate()
     {
         Vector3 acc = Input.acceleration;
-        rb.AddForce(acc.x * speed, 0, acc.y * speed);
+
+        //rb.AddForce(acc.x * speed, 0, acc.y * speed);
     }
 
     public void SetActive(bool flag)
