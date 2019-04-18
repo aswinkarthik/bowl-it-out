@@ -46,13 +46,16 @@
                 }
                 else
                 {
+
+                    //palneController.SetActive(true);
+                    //ballController.SetActive(true);
                     palneController.transform.SetPositionAndRotation(hit.Pose.position, hit.Pose.rotation);
                     var planeAnchor = hit.Trackable.CreateAnchor(hit.Pose);
                     gamePlaced = true;
                     palneController.transform.parent = planeAnchor.transform;
                     Rigidbody rb = palneController.GetComponent<Rigidbody>();
                     rb.transform.LookAt(palneController.transform.position);
-
+                    ballController.ActivateBall();
                     StopPlaneDetection(false);
 
                 }
