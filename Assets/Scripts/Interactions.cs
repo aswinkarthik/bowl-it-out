@@ -10,7 +10,7 @@
     {
         public Camera FirstPersonCamera;
         public GameObject DetectedPlanePrefab;
-        public PlaneController planeController;
+        public GameController gameController;
 
         private const float k_ModelRotation = 180.0f;
         private bool m_IsQuitting = false;
@@ -46,13 +46,13 @@
                 else
                 {
 
-                    planeController.transform.SetPositionAndRotation(hit.Pose.position, hit.Pose.rotation);
-                    planeController.SetActive(true);
+                    gameController.transform.SetPositionAndRotation(hit.Pose.position, hit.Pose.rotation);
+                    gameController.SetActive(true);
                     var planeAnchor = hit.Trackable.CreateAnchor(hit.Pose);
                     gamePlaced = true;
-                    planeController.transform.parent = planeAnchor.transform;
-                    Rigidbody rb = planeController.GetComponent<Rigidbody>();
-                    rb.transform.LookAt(planeController.transform.position);
+                    gameController.transform.parent = planeAnchor.transform;
+                    Rigidbody rb = gameController.GetComponent<Rigidbody>();
+                    rb.transform.LookAt(gameController.transform.position);
                     StopPlaneDetection(false);
 
                 }

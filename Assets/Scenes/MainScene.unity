@@ -199,7 +199,7 @@ MonoBehaviour:
   FirstPersonCamera: {fileID: 319250245}
   DetectedPlanePrefab: {fileID: 1654175882956584, guid: 6a35c744e5010405c847fad90282d2be,
     type: 3}
-  planeController: {fileID: 855334507}
+  gameController: {fileID: 855334508}
 --- !u!4 &215243619
 Transform:
   m_ObjectHideFlags: 0
@@ -532,7 +532,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 855334506}
-  - component: {fileID: 855334507}
+  - component: {fileID: 855334508}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -555,7 +555,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &855334507
+--- !u!114 &855334508
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -564,7 +564,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 855334505}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35fd0d6c09508489c9559bf39ae9ec4e, type: 3}
+  m_Script: {fileID: 11500000, guid: f7d7d1ce08f254f23a42b5883c163684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   plane: {fileID: 897120474}
@@ -1356,7 +1356,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1963600398}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.019, y: 0, z: -0.831}
+  m_LocalPosition: {x: 0.019, y: -0.025, z: -0.831}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 51546944}
