@@ -21,7 +21,6 @@ public class BallController : MonoBehaviour
     void Start()
     {
 
-
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         //ballObject.SetActive(false);
@@ -44,7 +43,7 @@ public class BallController : MonoBehaviour
             {
                 holdingBall = false;
                 rb.useGravity = true;
-                //Add force
+                //need to Add force
             }
         }
 
@@ -63,7 +62,7 @@ public class BallController : MonoBehaviour
     public void FixedUpdate()
     {
         Vector3 acc = Input.acceleration;
-        rb.AddForce(acc.x * speed, acc.y, acc.z * speed);
+        rb.AddForce(acc.x * speed, 0, acc.y * speed);
     }
 
     public void SetActive(bool flag)

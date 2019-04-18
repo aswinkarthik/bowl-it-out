@@ -10,8 +10,7 @@
     {
         public Camera FirstPersonCamera;
         public GameObject DetectedPlanePrefab;
-        public BallController ballController;
-        public PlaneController palneController;
+        public PlaneController planeController;
 
         private const float k_ModelRotation = 180.0f;
         private bool m_IsQuitting = false;
@@ -47,15 +46,13 @@
                 else
                 {
 
-                    //palneController.SetActive(true);
-                    //ballController.SetActive(true);
-                    palneController.transform.SetPositionAndRotation(hit.Pose.position, hit.Pose.rotation);
+                    planeController.transform.SetPositionAndRotation(hit.Pose.position, hit.Pose.rotation);
+                    planeController.SetActive(true);
                     var planeAnchor = hit.Trackable.CreateAnchor(hit.Pose);
                     gamePlaced = true;
-                    palneController.transform.parent = planeAnchor.transform;
-                    Rigidbody rb = palneController.GetComponent<Rigidbody>();
-                    rb.transform.LookAt(palneController.transform.position);
-                    ballController.ActivateBall();
+                    planeController.transform.parent = planeAnchor.transform;
+                    Rigidbody rb = planeController.GetComponent<Rigidbody>();
+                    rb.transform.LookAt(planeController.transform.position);
                     StopPlaneDetection(false);
 
                 }
