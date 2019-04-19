@@ -6,47 +6,46 @@ using GoogleARCore;
 public class BallController : MonoBehaviour
 {
     public GameObject ballObject;
+    public GameObject targetObject;
     public Camera FirstPersonCamera;
     public Rigidbody rb;
     public float thrust;
     public float ballDistance = 20f;
-    public float ballThrowingforce = 400f;
+    public float ballThrowingforce = 2000f;
 
     private bool holdingBall = true;
     private bool activateBall = false;
+    private bool removeObjects = false;
 
-    float speed = 2F;
+    [Range(5, 50)]
+    public float speed = 20f;
 
     // Start is called before the first frame update
     void Start()
     {
-
         rb = GetComponent<Rigidbody>();
-        rb.useGravity = false;
-        //ballObject.SetActive(false);
-        //rb.isKinematic = false;
-        //rb.detectCollisions = true;
+        rb.useGravity = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (holdingBall && activateBall && Input.touchCount > 0)
+        if (holdingBall && activateBall && Input.GetMouseButtonDown(0))
         {
-            Touch touch = Input.GetTouch(0);
-
-            Debug.Log("Hello: " + touch.phase +"----"+ Input.touchCount);
-            //touch.phase == TouchPhase.Moved
             if (Input.GetMouseButtonDown(0))
             {
                 holdingBall = false;
-                rb.useGravity = true;
                 ballObject.GetComponent<Rigidbody>().useGravity = true;
-                ballObject.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * 50);
-                //ballObject.transform.position = FirstPersonCamera.transform.position + FirstPersonCamera.transform.forward * ballDistance;
-                //need to Add force
-                //ApplyForce();
+                ballObject.GetComponent<Rigidbody>().detectCollisions = true;
+                ApplyForce();
             }
+        }
+
+
+        if (removeObjects)
+        {
+            ballObject.SetActive(false);
+            targetObject.SetActive(false);
         }
 
     }
@@ -58,19 +57,37 @@ public class BallController : MonoBehaviour
 
     public void ApplyForce()
     {
-        transform.Translate(Vector3.forward * (speed * Time.deltaTime));
-    }
-
-    public void FixedUpdate()
-    {
-        Vector3 acc = Input.acceleration;
-
-        //rb.AddForce(acc.x * speed, 0, acc.y * speed);
+        float step = speed * Time.deltaTime;
+        ballObject.GetComponent<Rigidbody>().AddForce((FirstPersonCamera.transform.forward) * ballThrowingforce * speed);
     }
 
     public void SetActive(bool flag)
     {
         ballObject.SetActive(flag);
     }
+
+    private void FixedUpdate()
+    {
+        float step = speed * Time.deltaTime;
+
+        // Move our position a step closer to the target.
+        if(!holdingBall)
+        transform.position = Vector3.MoveTowards(transform.position, targetObject.transform.position, step);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("Collision Enters----"+collision.gameObject.name);
+
+        if (collision.gameObject.name == "pins" || collision.gameObject.CompareTag("pin"))
+        {
+            Debug.Log("Collision destroy----" + collision.gameObject.name);
+            removeObjects = true;
+            Destroy(ballObject);
+            Destroy(collision.gameObject);
+            //Add score
+        }
+    }
+
 
 }
