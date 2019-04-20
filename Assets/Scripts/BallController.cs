@@ -11,20 +11,22 @@ public class BallController : MonoBehaviour
     public Rigidbody rb;
     public float thrust;
     public float ballDistance = 20f;
-    public float ballThrowingforce = 2000f;
+    public float ballThrowingforce = 800f;
 
     private bool holdingBall = true;
     private bool activateBall = false;
     private bool removeObjects = false;
 
     [Range(5, 50)]
-    public float speed = 20f;
+    public float speed = 5f;
+    Vector3 originalPos;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = true;
+        originalPos = new Vector3(ballObject.transform.position.x,ballObject.transform.position.y,ballObject.transform.position.z);
     }
 
     // Update is called once per frame
@@ -36,16 +38,9 @@ public class BallController : MonoBehaviour
             {
                 holdingBall = false;
                 ballObject.GetComponent<Rigidbody>().useGravity = true;
-                ballObject.GetComponent<Rigidbody>().detectCollisions = true;
+                targetObject.GetComponent<Rigidbody>().useGravity = true;
                 ApplyForce();
             }
-        }
-
-
-        if (removeObjects)
-        {
-            ballObject.SetActive(false);
-            targetObject.SetActive(false);
         }
 
     }
@@ -71,23 +66,36 @@ public class BallController : MonoBehaviour
         float step = speed * Time.deltaTime;
 
         // Move our position a step closer to the target.
-        if(!holdingBall)
-        transform.position = Vector3.MoveTowards(transform.position, targetObject.transform.position, step);
+        if(!holdingBall && !removeObjects)
+            transform.position = Vector3.MoveTowards(transform.position, targetObject.transform.position, step);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log("Collision Enters----"+collision.gameObject.name);
 
-        if (collision.gameObject.name == "pins" || collision.gameObject.CompareTag("pin"))
+        if (collision.gameObject.name == "Pins" || collision.gameObject.CompareTag("pin"))
         {
             Debug.Log("Collision destroy----" + collision.gameObject.name);
-            removeObjects = true;
-            Destroy(ballObject);
-            Destroy(collision.gameObject);
-            //Add score
+            StartCoroutine(CollisionAfterMath());
+
         }
     }
 
 
+
+    IEnumerator CollisionAfterMath()
+    {
+        yield return new WaitForSeconds(2);
+        removeObjects = true;
+        ballObject.SetActive(false);
+        targetObject.SetActive(false);
+        UpdateScore();
+    }
+
+
+    void UpdateScore()
+    {
+        ScoreBoard.Score += 1;
+    }
 }
