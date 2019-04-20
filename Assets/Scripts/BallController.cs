@@ -26,6 +26,7 @@ public class BallController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = true;
+        targetObject.GetComponent<Rigidbody>().useGravity = false;
         originalPos = new Vector3(ballObject.transform.position.x,ballObject.transform.position.y,ballObject.transform.position.z);
     }
 
@@ -74,10 +75,11 @@ public class BallController : MonoBehaviour
     {
         Debug.Log("Collision Enters----"+collision.gameObject.name);
 
-        if (collision.gameObject.name == "Pins" || collision.gameObject.CompareTag("pin"))
+        if (collision.gameObject.name == "Pins" || collision.gameObject.CompareTag("Pins1") || collision.gameObject.CompareTag("Pins2"))
         {
             Debug.Log("Collision destroy----" + collision.gameObject.name);
             StartCoroutine(CollisionAfterMath());
+            StartCoroutine(GameOver());
 
         }
     }
@@ -96,6 +98,22 @@ public class BallController : MonoBehaviour
 
     void UpdateScore()
     {
-        ScoreBoard.Score += 1;
+        ScoreBoard.UpdateScore(100);
     }
+
+    IEnumerator GameOver()
+    {
+        yield return new WaitForSeconds(5);
+        ScoreBoard.HideScore();
+        MessageBox.ShowGameCompletionMessage();
+    }
+
+    void ReInitiateGame()
+    {
+        holdingBall = true;
+        ballObject.transform.position = originalPos;
+        ballObject.SetActive(true);
+        targetObject.SetActive(true);
+    }
+
 }
