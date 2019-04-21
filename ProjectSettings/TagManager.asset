@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PlaneVisualizer
   - Pin
+  - startbutton
   layers:
   - Default
   - TransparentFX

@@ -11,6 +11,7 @@
         public Camera FirstPersonCamera;
         public GameObject DetectedPlanePrefab;
         public GameController gameController;
+        public ARCoreSession ARCoreSession;
 
         private const float k_ModelRotation = 180.0f;
         private bool m_IsQuitting = false;
@@ -45,7 +46,6 @@
                 }
                 else
                 {
-
                     gameController.transform.SetPositionAndRotation(hit.Pose.position, hit.Pose.rotation);
                     gameController.SetActive(true);
                     var planeAnchor = hit.Trackable.CreateAnchor(hit.Pose);
@@ -68,7 +68,21 @@
                 r.enabled = flag;
                 t.enabled = flag;
             }
+
         }
+
+
+        public void StartDetectingPlane()
+        {
+            ARCoreSession.OnEnable();
+            DetectedPlanePrefab.SetActive(true);
+        }
+
+        public void StopARSession()
+        {
+            ARCoreSession.OnDisable();
+        }
+
 
         private void _UpdateApplicationLifecycle()
         {
