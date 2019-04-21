@@ -8,6 +8,7 @@ public class BallController : MonoBehaviour
     public GameObject ballObject;
     public GameObject targetObject;
     public Camera FirstPersonCamera;
+    public MessageBox messageBox;
     public Rigidbody rb;
     public float thrust;
     public float ballDistance = 20f;
@@ -40,6 +41,7 @@ public class BallController : MonoBehaviour
                 holdingBall = false;
                 ballObject.GetComponent<Rigidbody>().useGravity = true;
                 targetObject.GetComponent<Rigidbody>().useGravity = true;
+                StartCoroutine(NoCollisionCase());
                 ApplyForce();
             }
         }
@@ -73,22 +75,31 @@ public class BallController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Collision Enters----"+collision.gameObject.name);
 
         if (collision.gameObject.name == "Pins" || collision.gameObject.CompareTag("Pins1") || collision.gameObject.CompareTag("Pins2"))
         {
-            Debug.Log("Collision destroy----" + collision.gameObject.name);
             StartCoroutine(CollisionAfterMath());
             StartCoroutine(GameOver());
 
         }
     }
 
+    IEnumerator NoCollisionCase()
+    {
+        yield return new WaitForSeconds(7);
+        if (!removeObjects)
+        {
+            removeObjects = true;
+            ballObject.SetActive(false);
+            targetObject.SetActive(false);
+            messageBox.ShowGameCompletionMessage();
+        }
+    }
 
 
     IEnumerator CollisionAfterMath()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         removeObjects = true;
         ballObject.SetActive(false);
         targetObject.SetActive(false);
@@ -103,9 +114,9 @@ public class BallController : MonoBehaviour
 
     IEnumerator GameOver()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(6);
         ScoreBoard.HideScore();
-        MessageBox.ShowGameCompletionMessage();
+        messageBox.ShowGameCompletionMessage();
     }
 
     void ReInitiateGame()

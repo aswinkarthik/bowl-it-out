@@ -36,7 +36,6 @@ public class PanelScript : MonoBehaviour
 
     public void StartGame()
     {
-        Debug.LogError("Game start Click----");
         GameObject[] buttons = GameObject.FindGameObjectsWithTag("startbutton");
         foreach (GameObject button in buttons)
         {
@@ -47,13 +46,11 @@ public class PanelScript : MonoBehaviour
 
     public void HideTitle()
     {
-        Debug.LogError("Game stop title----");
         ShowGameStart = false;
     }
 
     private void ShowTitle()
     {
-        Debug.LogError("Game start title----");
         ShowGameStart = true;
     }
 
@@ -65,7 +62,6 @@ public class PanelScript : MonoBehaviour
 
     public IEnumerator ShowStartUpTitle()
     {
-        Debug.LogError("Game start Click--enter--");
         ShowTitle();
         yield return new WaitForSeconds(3);
         HideTitle();

@@ -19,7 +19,6 @@ public class PinController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("OnTriggerEnter PIN CONTROLLER----" + other.gameObject.name);
         if (other.gameObject.name == "Ball")
         {
             Destroy(other.gameObject);
